@@ -1,11 +1,18 @@
 import React from 'react';
+import styles from './homePage.module.scss';
 
-function HomePage() {
+const HomePage: React.FC = () => {
   return (
-    <div>
-      <h1>Hello World</h1>
+    <div className={styles.root}>
+     <div>
+
+     </div>
+     
+     <div>
+
+     </div>
     </div>
   );
-}
+};
 
 export default HomePage;

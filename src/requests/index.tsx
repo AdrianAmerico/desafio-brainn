@@ -1,33 +1,58 @@
-import React from 'react';
+import { client } from '../config/client-graphql';
+import { gql } from '@apollo/client';
 
-class Requests {
-  private URL = process.env.REACT_APP_LINK_API!;
-  constructor() {}
-  public loterias = async () => {
-    try {
+export const loterias = async () => {
+  try {
+    const result = await client.query({
+      query: gql`
+        query {
+          loterias {
+            id
+            nome
+          }
+        }
+      `,
+    });
+    return result.data.loterias;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err.message);
-      }
-    }
-  };
-  public loteriasConcurso = async () => {
-    try {
+export const loteriasConcurso = async () => {
+  try {
+    const result = await client.query({
+      query: gql`
+        query {
+          loteriasConcursos {
+            loteriaId
+            concursoId
+          }
+        }
+      `,
+    });
+    return result.data.loteriasConcursos;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err.message);
-      }
-    }
-  };
-  public concurso = async () => {
-    try {
-        
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err.message);
-      }
-    }
-  };
-}
+export const concurso = async (id: number) => {
+  try {
+    const result = await client.query({
+      query: gql`
+        query {
+          concurso(id: ${id}) {
+            id
+            loteria
+            numeros
+            data
+          }
+        }
+      `,
+    });
+    return result.data.concurso;
+  } catch (err) {
+    console.log(err);
+  }
+};

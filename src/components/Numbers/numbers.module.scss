@@ -1,0 +1,20 @@
+@import '../../styles/Color.scss';
+
+.root {
+  width: 110px;
+  height: 110px;
+  border: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $white;
+
+  span {
+    font-weight: 400;
+  }
+
+  @media (max-width: 600px) {
+    width: 76px;
+    height: 76px;
+  }
+}

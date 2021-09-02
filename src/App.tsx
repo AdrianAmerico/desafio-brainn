@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
 import Router from './Router';
-import { loteriasConcurso, concurso } from './requests';
+import './styles/global.module.scss';
 
 function App() {
-  useEffect(() => {
-    concurso(5534);
-  }, []);
   return (
-    <div className="App">
+    <div>
       <Router />
     </div>
   );

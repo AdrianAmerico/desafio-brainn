@@ -12,7 +12,8 @@ const HomePage: React.FC = () => {
               <option>Mega-sena</option>
             </select>
           </label>
-
+        </div>
+        <div>
           <span>mega-sena</span>
         </div>
 
@@ -23,19 +24,22 @@ const HomePage: React.FC = () => {
       </div>
 
       <div className={styles.rigthSide}>
-        <div>
-          <Numbers />
-          <Numbers />
-          <Numbers />
-          <Numbers />
-          <Numbers />
-          <Numbers />
-        </div>
-        <div>
-          <span>
-            Este sorteio é meramente ilustrativo e não possui nenhuma ligação
-            com a CAIXA
-          </span>
+        <div className={styles.rightSideContainer}>
+          <div style={{ flex: 1 }} />
+          <section className={styles.numbersSection}>
+            <Numbers />
+            <Numbers />
+            <Numbers />
+            <Numbers />
+            <Numbers />
+            <Numbers />
+          </section>
+          <div className={styles.footer}>
+            <span>
+              Este sorteio é meramente ilustrativo e não possui nenhuma ligação
+              com a CAIXA
+            </span>
+          </div>
         </div>
       </div>
     </div>

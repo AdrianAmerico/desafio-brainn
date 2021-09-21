@@ -7,15 +7,10 @@ export const Background: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
       fill="none"
       {...props}
       style={{
-        width: ' 100%',
-        height: ' 100%',
+        height: '100vh',
         position: 'absolute',
-        background: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'contain',
-        backgroundPosition: 'top',
-        zIndex: -1000,
-        backgroundColor: '#666',
+        inset: '0 61.69% 0 0',
+        zIndex: 1,
       }}
     >
       <path

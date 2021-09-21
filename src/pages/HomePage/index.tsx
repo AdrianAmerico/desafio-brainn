@@ -1,18 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Background } from '../../assets/Background';
 import Numbers from '../../components/Numbers';
+import { loterias } from '../../requests';
 import styles from './homePage.module.scss';
 
+type itemMapPattern = {
+  __typename: string;
+  id: number;
+  nome: number;
+};
+
 const HomePage: React.FC = () => {
+  const [lotery, setlotery] = useState<any>();
+  async function getLotery() {
+    const data = await loterias();
+    setlotery(data);
+  }
+
+  useEffect(() => {
+    getLotery();
+  }, []);
+  console.log(lotery);
   return (
     <>
-      <Background />
+      <Background fill="#6befa3" />
       <div className={styles.root}>
         <div className={styles.leftSide}>
           <div>
             <label>
               <select>
-                <option>Mega-sena</option>
+                <option></option>
+                {lotery &&
+                  lotery.map(
+                    (
+                      _item: itemMapPattern,
+                      index: React.Key | null | undefined,
+                    ) => {
+                      return <option key={index}>{_item.nome}</option>;
+                    },
+                  )}
               </select>
             </label>
           </div>

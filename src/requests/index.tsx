@@ -1,22 +1,20 @@
 import { client } from '../config/client-graphql';
 import { gql } from '@apollo/client';
+import { useEffect, useState } from 'react';
 
 export const loterias = async () => {
-  try {
-    const result = await client.query({
-      query: gql`
-        query {
-          loterias {
-            id
-            nome
-          }
+  const result = await client.query({
+    query: gql`
+      query {
+        loterias {
+          id
+          nome
         }
-      `,
-    });
-    return result.data.loterias;
-  } catch (err) {
-    console.log(err);
-  }
+      }
+    `,
+  });
+
+  return result.data.loterias;
 };
 
 export const loteriasConcurso = async () => {

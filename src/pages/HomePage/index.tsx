@@ -13,7 +13,7 @@ type itemMapPattern = {
 const HomePage: React.FC = () => {
   const [lotery, setlotery] = useState<any>();
   const [concurse, setConcurse] = useState<any>();
-  const [id, setId] = useState<string>();
+  const [id, setId] = useState<number>();
 
   async function getRequests() {
     const data = await loterias();
@@ -24,26 +24,24 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     getRequests();
-  }, []);
-  console.log(id);
+    console.log(id);
+  }, [id]);
 
-  const desespero = async (name: string): Promise<void> => {
-    const aaa = await lotery.filter((item: itemMapPattern) => {
+  const getConcurseId = async (name: string): Promise<void> => {
+    let loteryId: number = 0;
+
+    await lotery.filter((item: itemMapPattern) => {
       if (item.nome === name) {
+        loteryId = item.id;
+        concurse.filter((item: any) => {
+          if (item.loteriaId === loteryId) {
+            setId(item.concursoId);
+          }
+        });
         return true;
       }
       return false;
     });
-    const testeee = await concurse.filter((item: any) => {
-      if (item.loteriaId === aaa[0].id) {
-        return item.concursoId;
-      }
-    });
-
-    const OMG = await testeee.map((aaa: any) => {
-      return aaa.concursoId;
-    });
-    setId(OMG[0]);
   };
 
   return (
@@ -55,7 +53,7 @@ const HomePage: React.FC = () => {
             <label>
               <select
                 onChange={(e) => {
-                  desespero(e.target.value);
+                  getConcurseId(e.target.value);
                 }}
               >
                 {lotery ? (

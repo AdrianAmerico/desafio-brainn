@@ -1,6 +1,7 @@
 import { client } from '../config/client-graphql';
-import { gql } from '@apollo/client';
+import { ApolloQueryResult, gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
+import { concurso } from '../config/types';
 
 export const loterias = async () => {
   const result = await client.query({
@@ -35,9 +36,9 @@ export const loteriasConcurso = async () => {
   }
 };
 
-export const concurso = async (id: number) => {
+export const concursoData = async (id: number) => {
   try {
-    const result = await client.query({
+    const result: ApolloQueryResult<concurso> = await client.query({
       query: gql`
         query {
           concurso(id: ${id}) {

@@ -10,7 +10,10 @@
   background-color: $white;
 
   span {
-    font-weight: bold;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 27px;
+    line-height: 33px;
   }
 
   @media (max-width: 600px) {

@@ -1,10 +1,27 @@
+import {
+  FormControl,
+  CircularProgress,
+  MenuItem,
+  Select,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { format, parseISO } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { Background } from '../../assets/Background';
+import { Background } from '../../components/Background';
 import Numbers from '../../components/Numbers';
 import { concurseData, itemMapPattern } from '../../config/types';
 import { concursoData, loterias, loteriasConcurso } from '../../requests';
 import styles from './homePage.module.scss';
+
+const useStyles = makeStyles({
+  root: {},
+  loading: {
+    gridColumn: '3',
+    margin: '0 auto',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+});
 
 const HomePage: React.FC = () => {
   const [lotery, setlotery] = useState<any>();
@@ -12,6 +29,7 @@ const HomePage: React.FC = () => {
   const [concurseId, setConcurseId] = useState<number>(2359);
   const [concurseName, setConcurseName] = useState<string>('mega-sena');
   const [concurseData, setConcurseData] = useState<concurseData>();
+  const classes = useStyles();
 
   async function getRequests() {
     const data = await loterias();
@@ -27,7 +45,7 @@ const HomePage: React.FC = () => {
   };
   useEffect(() => {
     getRequests();
-  }, [concurseId, concurseData]);
+  }, [concurseId, concurseData, concurseName]);
 
   const getConcurseId = async (name: string): Promise<void> => {
     let loteryId: number = 0;
@@ -48,56 +66,92 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <Background name={concurseName} />
       <div className={styles.root}>
-        <div className={styles.leftSide}>
-          <div>
-            <label>
-              <select
-                style={{ textTransform: 'capitalize' }}
-                onChange={(e) => {
-                  getConcurseId(e.target.value);
+        <div style={{ position: 'relative' }}>
+          <Background name={concurseName} />
+          <div className={styles.leftSide}>
+            <div>
+              <FormControl
+                variant="outlined"
+                color="primary"
+                sx={{ m: 1, minWidth: 120 }}
+                size="medium"
+                style={{ background: 'white' }}
+              >
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  style={{ textTransform: 'capitalize' }}
+                  label="Loteria"
+                  onChange={(e: { target: { value: string } }) => {
+                    getConcurseId(e.target.value);
+                  }}
+                  value={concurseName}
+                >
+                  {lotery ? (
+                    lotery.map((item: itemMapPattern) => {
+                      return (
+                        <MenuItem
+                          key={item.id}
+                          value={item.nome}
+                          style={{
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {item.nome}
+                        </MenuItem>
+                      );
+                    })
+                  ) : (
+                    <MenuItem>Carregando...</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </div>
+
+            <div>
+              <h1
+                style={{
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  color: 'white',
                 }}
               >
-                {lotery ? (
-                  lotery.map((item: itemMapPattern) => {
-                    return <option key={item.id}>{item.nome}</option>;
-                  })
-                ) : (
-                  <option>Carregando...</option>
-                )}
-              </select>
-            </label>
-          </div>
-          <div>
-            <h1 style={{ textTransform: 'capitalize' }}>
-              {concurseName ? concurseName : 'Carregando...'}
-            </h1>
-          </div>
+                {concurseName ? concurseName : 'Carregando...'}
+              </h1>
+            </div>
 
-          <div>
-            <h4>Concurso</h4>
-            <span>
-              {concurseId} -{' '}
-              {concurseData?.data && formatData(concurseData.data)}
-            </span>
+            <div>
+              <h4>Concurso</h4>
+              <span style={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                {concurseId} -{' '}
+                {concurseData?.data && formatData(concurseData.data)}
+              </span>
+            </div>
           </div>
         </div>
 
         <div className={styles.rigthSide}>
           <div className={styles.rightSideContainer}>
-            <div style={{ flex: 1 }} />
+            <div />
             <section className={styles.numbersSection}>
-              {concurseData?.numeros.map((loteryNumber, index) => {
-                return <Numbers key={index}>{loteryNumber}</Numbers>;
-              })}
+              <div className={styles.numbersAlign}>
+                {concurseData ? (
+                  concurseData.numeros.map((loteryNumber, index) => {
+                    return <Numbers key={index}>{loteryNumber}</Numbers>;
+                  })
+                ) : (
+                  <CircularProgress className={classes.loading} size="md" />
+                )}
+              </div>
             </section>
-            <div className={styles.footer}>
-              <span>
+
+            <footer className={styles.footer}>
+              <p>
                 Este sorteio é meramente ilustrativo e não possui nenhuma
                 ligação com a CAIXA
-              </span>
-            </div>
+              </p>
+            </footer>
           </div>
         </div>
       </div>

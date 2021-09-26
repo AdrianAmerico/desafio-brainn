@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export const Background: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const [color, setColor] = React.useState<string>('');
-  
+
   React.useEffect(() => {
     changeBackgroundColor();
   }, [props.name]);
@@ -41,7 +41,7 @@ export const Background: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
       {...props}
       style={{
         height: '100vh',
-        position: 'absolute',
+        position: 'relative',
         inset: '0 61.69% 0 0',
         zIndex: 1,
       }}

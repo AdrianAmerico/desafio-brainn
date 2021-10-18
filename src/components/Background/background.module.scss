@@ -1,0 +1,14 @@
+.root {
+  height: 100vh;
+  position: relative;
+  inset: 0 61.69% 0 0;
+  z-index: 1;
+
+
+  @media (max-width: 940px) {
+    transform: rotate(90deg);
+    bottom: 0;
+    height: 100%;
+    transition: 0.5s all;
+  }
+}

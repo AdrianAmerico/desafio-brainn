@@ -1,8 +1,8 @@
 import * as React from 'react';
+import style from './background.module.scss';
 
 export const Background: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const [color, setColor] = React.useState<string>('');
-
   React.useEffect(() => {
     changeBackgroundColor();
   }, [props.name]);
@@ -39,12 +39,7 @@ export const Background: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
       viewBox="0 0 613 1080"
       fill="none"
       {...props}
-      style={{
-        height: '100vh',
-        position: 'relative',
-        inset: '0 61.69% 0 0',
-        zIndex: 1,
-      }}
+      className={style.root}
     >
       <path
         width="100%"
